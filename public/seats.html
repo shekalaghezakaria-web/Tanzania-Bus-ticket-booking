@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Seats - SafariBus</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>🚌 SafariBus</h2>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="routes.html" class="nav-link">Routes</a>
+                </li>
+                <li class="nav-item">
+                    <a href="dashboard.html" class="nav-link">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a href="register.html" class="nav-link btn-register">Register</a>
+                </li>
+            </ul>
+            <div class="nav-toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Seat Selection Section -->
+    <section class="seats-section">
+        <div class="container">
+            <!-- Bus Info -->
+            <div class="bus-info-card">
+                <div class="bus-details">
+                    <h2 id="busName">Loading...</h2>
+                    <div class="route-info">
+                        <p><strong>Route:</strong> <span id="routeInfo">Loading...</span></p>
+                        <p><strong>Departure:</strong> <span id="departureTime">Loading...</span></p>
+                        <p><strong>Price:</strong> <span id="ticketPrice">Loading...</span></p>
+                    </div>
+                </div>
+                <div class="booking-summary">
+                    <h3>Booking Summary</h3>
+                    <div class="summary-item">
+                        <span>Selected Seat:</span>
+                        <span id="selectedSeatDisplay">None</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Total Price:</span>
+                        <span id="totalPrice">TSh 0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seat Map -->
+            <div class="seat-map-container">
+                <div class="seat-map-header">
+                    <h3>Select Your Seat</h3>
+                    <div class="seat-legend">
+                        <div class="legend-item">
+                            <div class="seat available"></div>
+                            <span>Available</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="seat selected"></div>
+                            <span>Selected</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="seat booked"></div>
+                            <span>Booked</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bus Front Indicator -->
+                <div class="bus-front">
+                    <div class="front-indicator">FRONT</div>
+                </div>
+
+                <!-- Seats Grid -->
+                <div id="seatsGrid" class="seats-grid">
+                    <!-- Seats will be loaded here -->
+                    <div class="loading-state">
+                        <div class="spinner"></div>
+                        <p>Loading seat map...</p>
+                    </div>
+                </div>
+
+                <!-- Driver Area -->
+                <div class="driver-area">
+                    <div class="driver-seat">👨‍✈️ Driver</div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="seat-actions">
+                <button id="backToRoutes" class="btn btn-secondary">← Back to Routes</button>
+                <button id="confirmSeat" class="btn btn-primary" disabled>Confirm Seat Selection</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="spinner"></div>
+        <p>Processing...</p>
+    </div>
+
+    <script src="script.js"></script>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>SafariBus</h3>
+                    <p>Your trusted travel partner across Tanzania</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="routes.html">Routes</a></li>
+                        <li><a href="index.html#about">About</a></li>
+                        <li><a href="index.html#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="register.html">Book Ticket</a></li>
+                        <li><a href="dashboard.html">My Bookings</a></li>
+                        <li><a href="#">Cancel Booking</a></li>
+                        <li><a href="#">Customer Support</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#">📘</a>
+                        <a href="#">🐦</a>
+                        <a href="#">📷</a>
+                        <a href="#">💼</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 SafariBus. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

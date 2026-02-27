@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - SafariBus</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>🚌 SafariBus</h2>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="routes.html" class="nav-link">Routes</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#about" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html#contact" class="nav-link">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a href="register.html" class="nav-link btn-register active">Register</a>
+                </li>
+            </ul>
+            <div class="nav-toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Registration Section -->
+    <section class="register-section">
+        <div class="container">
+            <div class="register-container">
+                <div class="register-card">
+                    <div class="register-header">
+                        <h2>Create Your Account</h2>
+                        <p>Join SafariBus and start booking your tickets online</p>
+                    </div>
+                    
+                    <form id="registerForm" class="register-form">
+                        <div class="form-group">
+                            <label for="fullName">Full Name</label>
+                            <input type="text" id="fullName" name="fullName" required placeholder="Enter your full name">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" required placeholder="Enter your phone number (e.g., +255 712 345 678)">
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-full">Register</button>
+                    </form>
+                    
+                    <div class="register-footer">
+                        <p>Already have an account? <a href="#" id="loginLink">Login here</a></p>
+                    </div>
+                </div>
+                
+                <div class="register-info">
+                    <h3>Why Register with SafariBus?</h3>
+                    <ul class="benefits-list">
+                        <li>
+                            <span class="benefit-icon">🎫</span>
+                            <span>Quick and easy online booking</span>
+                        </li>
+                        <li>
+                            <span class="benefit-icon">💺</span>
+                            <span>Choose your preferred seat</span>
+                        </li>
+                        <li>
+                            <span class="benefit-icon">📱</span>
+                            <span>Track your bookings on mobile</span>
+                        </li>
+                        <li>
+                            <span class="benefit-icon">🔔</span>
+                            <span>Receive booking confirmations</span>
+                        </li>
+                        <li>
+                            <span class="benefit-icon">💳</span>
+                            <span>Secure payment processing</span>
+                        </li>
+                        <li>
+                            <span class="benefit-icon">🎁</span>
+                            <span>Exclusive member discounts</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Login to Your Account</h3>
+                <span class="close">&times;</span>
+            </div>
+            <form id="loginForm" class="login-form">
+                <div class="form-group">
+                    <label for="loginPhone">Phone Number</label>
+                    <input type="tel" id="loginPhone" name="loginPhone" required placeholder="Enter your phone number">
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="spinner"></div>
+        <p>Processing...</p>
+    </div>
+
+    <script src="script.js"></script>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>SafariBus</h3>
+                    <p>Your trusted travel partner across Tanzania</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="routes.html">Routes</a></li>
+                        <li><a href="index.html#about">About</a></li>
+                        <li><a href="index.html#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="register.html">Book Ticket</a></li>
+                        <li><a href="dashboard.html">My Bookings</a></li>
+                        <li><a href="#">Cancel Booking</a></li>
+                        <li><a href="#">Customer Support</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#">📘</a>
+                        <a href="#">🐦</a>
+                        <a href="#">📷</a>
+                        <a href="#">💼</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 SafariBus. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

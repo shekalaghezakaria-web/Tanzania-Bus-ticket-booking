@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - SafariBus</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>🚌 SafariBus</h2>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="routes.html" class="nav-link">Routes</a>
+                </li>
+                <li class="nav-item">
+                    <a href="dashboard.html" class="nav-link active">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" id="logoutBtn" class="nav-link">Logout</a>
+                </li>
+            </ul>
+            <div class="nav-toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Section -->
+    <section class="dashboard-section">
+        <div class="container">
+            <!-- User Welcome -->
+            <div class="welcome-card">
+                <div class="welcome-content">
+                    <h2>Welcome back, <span id="userName">User</span>!</h2>
+                    <p>Manage your bookings and plan your next journey</p>
+                </div>
+                <div class="welcome-actions">
+                    <a href="routes.html" class="btn btn-primary">Book New Ticket</a>
+                </div>
+            </div>
+
+            <!-- Dashboard Stats -->
+            <div class="dashboard-stats">
+                <div class="stat-card">
+                    <div class="stat-icon">🎫</div>
+                    <div class="stat-info">
+                        <h3 id="totalBookings">0</h3>
+                        <p>Total Bookings</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🚌</div>
+                    <div class="stat-info">
+                        <h3 id="upcomingTrips">0</h3>
+                        <p>Upcoming Trips</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">💰</div>
+                    <div class="stat-info">
+                        <h3 id="totalSpent">TSh 0</h3>
+                        <p>Total Spent</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Bookings -->
+            <div class="bookings-section">
+                <div class="section-header">
+                    <h3>My Bookings</h3>
+                    <button id="refreshBookings" class="btn btn-secondary">Refresh</button>
+                </div>
+                
+                <div id="bookingsList" class="bookings-list">
+                    <!-- Bookings will be loaded here -->
+                    <div class="loading-state">
+                        <div class="spinner"></div>
+                        <p>Loading your bookings...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <h3>Quick Actions</h3>
+                <div class="actions-grid">
+                    <a href="routes.html" class="action-card">
+                        <div class="action-icon">🎫</div>
+                        <h4>Book Ticket</h4>
+                        <p>Book a new ticket</p>
+                    </a>
+                    <a href="#" class="action-card" id="viewProfile">
+                        <div class="action-icon">👤</div>
+                        <h4>My Profile</h4>
+                        <p>View your details</p>
+                    </a>
+                    <a href="#" class="action-card" id="cancelBooking">
+                        <div class="action-icon">❌</div>
+                        <h4>Cancel Booking</h4>
+                        <p>Cancel a booking</p>
+                    </a>
+                    <a href="index.html#contact" class="action-card">
+                        <div class="action-icon">📞</div>
+                        <h4>Contact Support</h4>
+                        <p>Get help</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Details Modal -->
+    <div id="bookingModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Booking Details</h3>
+                <span class="close">&times;</span>
+            </div>
+            <div id="bookingDetails" class="booking-details">
+                <!-- Booking details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Cancel Booking Modal -->
+    <div id="cancelModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Cancel Booking</h3>
+                <span class="close">&times;</span>
+            </div>
+            <div class="cancel-content">
+                <p>Are you sure you want to cancel this booking?</p>
+                <div class="cancel-info">
+                    <p><strong>Route:</strong> <span id="cancelRoute"></span></p>
+                    <p><strong>Seat:</strong> <span id="cancelSeat"></span></p>
+                    <p><strong>Date:</strong> <span id="cancelDate"></span></p>
+                </div>
+                <div class="cancel-actions">
+                    <button id="confirmCancel" class="btn btn-danger">Yes, Cancel</button>
+                    <button id="cancelClose" class="btn btn-secondary">No, Keep</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="spinner"></div>
+        <p>Processing...</p>
+    </div>
+
+    <script src="script.js"></script>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>SafariBus</h3>
+                    <p>Your trusted travel partner across Tanzania</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="routes.html">Routes</a></li>
+                        <li><a href="index.html#about">About</a></li>
+                        <li><a href="index.html#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="register.html">Book Ticket</a></li>
+                        <li><a href="dashboard.html">My Bookings</a></li>
+                        <li><a href="#">Cancel Booking</a></li>
+                        <li><a href="#">Customer Support</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#">📘</a>
+                        <a href="#">🐦</a>
+                        <a href="#">📷</a>
+                        <a href="#">💼</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 SafariBus. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

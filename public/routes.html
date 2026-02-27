@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Routes - SafariBus</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>🚌 SafariBus</h2>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="routes.html" class="nav-link active">Routes</a>
+                </li>
+                <li class="nav-item">
+                    <a href="dashboard.html" class="nav-link">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a href="register.html" class="nav-link btn-register">Register</a>
+                </li>
+            </ul>
+            <div class="nav-toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Routes Section -->
+    <section class="routes-page-section">
+        <div class="container">
+            <div class="page-header">
+                <h1>Available Routes</h1>
+                <p>Choose your destination and book your journey</p>
+            </div>
+
+            <!-- Route Search -->
+            <div class="search-section">
+                <div class="search-card">
+                    <h3>Find Your Route</h3>
+                    <div class="search-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="fromLocation">From</label>
+                                <select id="fromLocation" class="form-control">
+                                    <option value="">Select departure city</option>
+                                    <option value="Dar es Salaam">Dar es Salaam</option>
+                                    <option value="Mwanza">Mwanza</option>
+                                    <option value="Mbeya">Mbeya</option>
+                                    <option value="Dodoma">Dodoma</option>
+                                    <option value="Arusha">Arusha</option>
+                                    <option value="Morogoro">Morogoro</option>
+                                    <option value="Tanga">Tanga</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="toLocation">To</label>
+                                <select id="toLocation" class="form-control">
+                                    <option value="">Select destination city</option>
+                                    <option value="Dar es Salaam">Dar es Salaam</option>
+                                    <option value="Mwanza">Mwanza</option>
+                                    <option value="Mbeya">Mbeya</option>
+                                    <option value="Dodoma">Dodoma</option>
+                                    <option value="Arusha">Arusha</option>
+                                    <option value="Morogoro">Morogoro</option>
+                                    <option value="Tanga">Tanga</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button id="searchRoutes" class="btn btn-primary">Search Routes</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Routes List -->
+            <div class="routes-content">
+                <div class="section-header">
+                    <h3>All Available Routes</h3>
+                    <div class="view-toggle">
+                        <button class="view-btn active" data-view="grid">Grid</button>
+                        <button class="view-btn" data-view="list">List</button>
+                    </div>
+                </div>
+
+                <div id="routesList" class="routes-list">
+                    <!-- Routes will be loaded here -->
+                    <div class="loading-state">
+                        <div class="spinner"></div>
+                        <p>Loading available routes...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Buses Modal -->
+            <div id="busesModal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>Available Buses</h3>
+                        <span class="close">&times;</span>
+                    </div>
+                    <div id="busesList" class="buses-list">
+                        <!-- Buses will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="spinner"></div>
+        <p>Processing...</p>
+    </div>
+
+    <script src="script.js"></script>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>SafariBus</h3>
+                    <p>Your trusted travel partner across Tanzania</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="routes.html">Routes</a></li>
+                        <li><a href="index.html#about">About</a></li>
+                        <li><a href="index.html#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="register.html">Book Ticket</a></li>
+                        <li><a href="dashboard.html">My Bookings</a></li>
+                        <li><a href="#">Cancel Booking</a></li>
+                        <li><a href="#">Customer Support</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#">📘</a>
+                        <a href="#">🐦</a>
+                        <a href="#">📷</a>
+                        <a href="#">💼</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 SafariBus. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

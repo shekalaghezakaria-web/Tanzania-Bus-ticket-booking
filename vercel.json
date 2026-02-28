@@ -1,0 +1,1 @@
+{"version": 2, "builds": [{"src": "public/**/*", "use": "@vercel/static"}], "routes": [{"src": "/api/(.*)", "dest": "https://safari-bus-api.onrender.com/api/$1"}, {"src": "/(.*)", "dest": "/public/$1"}], "env": {"REACT_APP_API_URL": "https://safari-bus-api.onrender.com"}}

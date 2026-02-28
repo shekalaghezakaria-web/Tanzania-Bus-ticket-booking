@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafariBus Complete Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
+        .test-section { margin: 20px 0; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        button { padding: 10px 20px; margin: 5px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        .result { margin: 10px 0; padding: 10px; background: #f0f0f0; border-radius: 4px; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .loading { background: #fff3cd; color: #856404; }
+        h1, h2 { color: #333; }
+        .step { margin: 15px 0; padding: 15px; border-left: 4px solid #007bff; background: #f8f9fa; }
+    </style>
+</head>
+<body>
+    <h1>🚌 SafariBus Complete Test</h1>
+    
+    <div class="test-section">
+        <h2>📝 Step 1: Registration</h2>
+        <button onclick="testRegistration()">Test Registration</button>
+        <div id="regResult" class="result">Click to test registration...</div>
+    </div>
+    
+    <div class="test-section">
+        <h2>🔑 Step 2: Login</h2>
+        <button onclick="testLogin()">Test Login</button>
+        <div id="loginResult" class="result">Click to test login...</div>
+    </div>
+    
+    <div class="test-section">
+        <h2>🛣️ Step 3: Routes</h2>
+        <button onclick="testRoutes()">Test Routes</button>
+        <div id="routesResult" class="result">Click to test routes...</div>
+    </div>
+    
+    <div class="test-section">
+        <h2>🎫 Step 4: Booking</h2>
+        <button onclick="testBooking()">Test Booking</button>
+        <div id="bookingResult" class="result">Click to test booking...</div>
+    </div>
+    
+    <div class="test-section">
+        <h2>📊 Step 5: My Bookings</h2>
+        <button onclick="testMyBookings()">Test My Bookings</button>
+        <div id="myBookingsResult" class="result">Click to test my bookings...</div>
+    </div>
+    
+    <div class="test-section">
+        <h2>🎯 Complete Flow Test</h2>
+        <button onclick="testCompleteFlow()">🚀 Run Complete Flow</button>
+        <div id="completeResult" class="result">Click to run complete test...</div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:5000/api';
+        let currentToken = null;
+        let currentUser = null;
+        
+        async function apiRequest(endpoint, options = {}) {
+            const url = `${API_BASE}${endpoint}`;
+            const defaultOptions = { headers: { 'Content-Type': 'application/json' } };
+            if (currentToken) {
+                defaultOptions.headers.Authorization = `Bearer ${currentToken}`;
+            }
+            const finalOptions = { ...defaultOptions, ...options, headers: { ...defaultOptions.headers, ...options.headers } };
+            
+            try {
+                const response = await fetch(url, finalOptions);
+                const data = await response.json();
+                return { success: response.ok, data, status: response.status };
+            } catch (error) {
+                return { success: false, error: error.message };
+            }
+        }
+        
+        function updateResult(elementId, message, type = 'loading') {
+            const element = document.getElementById(elementId);
+            element.className = `result ${type}`;
+            element.innerHTML = message;
+        }
+        
+        async function testRegistration() {
+            updateResult('regResult', '⏳ Testing registration...', 'loading');
+            
+            const response = await apiRequest('/auth/register', {
+                method: 'POST',
+                body: JSON.stringify({
+                    full_name: 'Complete Test User',
+                    phone: '0712345672'
+                })
+            });
+            
+            if (response.success) {
+                updateResult('regResult', `✅ Registration successful!<br>User: ${response.data.user.full_name}<br>Token: ${response.data.token.substring(0, 50)}...`, 'success');
+            } else {
+                updateResult('regResult', `❌ Registration failed: ${response.error}`, 'error');
+            }
+        }
+        
+        async function testLogin() {
+            updateResult('loginResult', '⏳ Testing login...', 'loading');
+            
+            const response = await apiRequest('/auth/login', {
+                method: 'POST',
+                body: JSON.stringify({
+                    phone: '0712345672',
+                    password: 'any'
+                })
+            });
+            
+            if (response.success) {
+                currentToken = response.data.token;
+                currentUser = response.data.user;
+                updateResult('loginResult', `✅ Login successful!<br>User: ${response.data.user.full_name}<br>Token stored for next tests`, 'success');
+            } else {
+                updateResult('loginResult', `❌ Login failed: ${response.error}`, 'error');
+            }
+        }
+        
+        async function testRoutes() {
+            updateResult('routesResult', '⏳ Testing routes...', 'loading');
+            
+            const response = await apiRequest('/routes');
+            
+            if (response.success) {
+                updateResult('routesResult', `✅ Routes loaded!<br>Found ${response.data.routes.length} routes<br>First route: ${response.data.routes[0].from_location} to ${response.data.routes[0].to_location}`, 'success');
+            } else {
+                updateResult('routesResult', `❌ Routes failed: ${response.error}`, 'error');
+            }
+        }
+        
+        async function testBooking() {
+            if (!currentToken) {
+                updateResult('bookingResult', '❌ Please login first!', 'error');
+                return;
+            }
+            
+            updateResult('bookingResult', '⏳ Testing booking...', 'loading');
+            
+            const response = await apiRequest('/booking', {
+                method: 'POST',
+                body: JSON.stringify({
+                    bus_id: 1,
+                    seat_number: '07A',
+                    price: '85000.00'
+                })
+            });
+            
+            if (response.success) {
+                updateResult('bookingResult', `✅ Booking successful!<br>Booking ID: ${response.data.booking.id}<br>Status: ${response.data.booking.status}`, 'success');
+            } else {
+                updateResult('bookingResult', `❌ Booking failed: ${response.error}`, 'error');
+            }
+        }
+        
+        async function testMyBookings() {
+            if (!currentToken) {
+                updateResult('myBookingsResult', '❌ Please login first!', 'error');
+                return;
+            }
+            
+            updateResult('myBookingsResult', '⏳ Testing my bookings...', 'loading');
+            
+            const response = await apiRequest('/booking/my-bookings');
+            
+            if (response.success) {
+                updateResult('myBookingsResult', `✅ My bookings loaded!<br>Found ${response.data.bookings.length} bookings`, 'success');
+            } else {
+                updateResult('myBookingsResult', `❌ My bookings failed: ${response.error}`, 'error');
+            }
+        }
+        
+        async function testCompleteFlow() {
+            updateResult('completeResult', '🚀 Running complete flow test...', 'loading');
+            
+            try {
+                // Step 1: Registration
+                const regResponse = await apiRequest('/auth/register', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        full_name: 'Flow Test User',
+                        phone: '0712345671'
+                    })
+                });
+                
+                if (!regResponse.success) {
+                    throw new Error(`Registration failed: ${regResponse.error}`);
+                }
+                
+                // Step 2: Login
+                const loginResponse = await apiRequest('/auth/login', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        phone: '0712345671',
+                        password: 'any'
+                    })
+                });
+                
+                if (!loginResponse.success) {
+                    throw new Error(`Login failed: ${loginResponse.error}`);
+                }
+                
+                currentToken = loginResponse.data.token;
+                
+                // Step 3: Routes
+                const routesResponse = await apiRequest('/routes');
+                
+                if (!routesResponse.success) {
+                    throw new Error(`Routes failed: ${routesResponse.error}`);
+                }
+                
+                // Step 4: Booking
+                const bookingResponse = await apiRequest('/booking', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        bus_id: 1,
+                        seat_number: '08A',
+                        price: '85000.00'
+                    })
+                });
+                
+                if (!bookingResponse.success) {
+                    throw new Error(`Booking failed: ${bookingResponse.error}`);
+                }
+                
+                // Step 5: My Bookings
+                const myBookingsResponse = await apiRequest('/booking/my-bookings');
+                
+                if (!myBookingsResponse.success) {
+                    throw new Error(`My bookings failed: ${myBookingsResponse.error}`);
+                }
+                
+                updateResult('completeResult', 
+                    `🎉 Complete flow successful!<br><br>` +
+                    `✅ Registration: Flow Test User<br>` +
+                    `✅ Login: Successful<br>` +
+                    `✅ Routes: ${routesResponse.data.routes.length} available<br>` +
+                    `✅ Booking: ID #${bookingResponse.data.booking.id}<br>` +
+                    `✅ My Bookings: ${myBookingsResponse.data.bookings.length} found<br><br>` +
+                    `🚀 SafariBus App is working perfectly!`, 
+                    'success'
+                );
+                
+            } catch (error) {
+                updateResult('completeResult', `❌ Complete flow failed: ${error.message}`, 'error');
+            }
+        }
+        
+        // Auto-run complete flow on page load
+        window.addEventListener('load', function() {
+            setTimeout(testCompleteFlow, 1000);
+        });
+    </script>
+</body>
+</html>

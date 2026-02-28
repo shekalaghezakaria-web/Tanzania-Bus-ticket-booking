@@ -5,7 +5,7 @@ const pool = mysql.createPool({
     host: process.env.DB_HOST || 'localhost',
     user: process.env.DB_USER || 'root',
     password: process.env.DB_PASSWORD || '',
-    database: process.env.DB_NAME || 'bus_booking',
+    database: process.env.DB_NAME || 'buss-tickrt',
     port: 3306,
     waitForConnections: true,
     connectionLimit: 10,
@@ -23,6 +23,9 @@ pool.getConnection()
     });
 
 module.exports = {
-    query: (sql, params) => pool.execute(sql, params),
+    query: async (sql, params) => {
+        const [rows, fields] = await pool.execute(sql, params);
+        return rows;
+    },
     pool
 };

@@ -1,0 +1,67 @@
+{
+  "name": "Safari Zangu - Tiketi ya Basi Tanzania",
+  "short_name": "SafariZangu",
+  "description": "App ya kutafuta na kununua tiketi ya basi online Tanzania - Usajili, Login, Nauli, Vitanda, Malipo",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0d6efd",
+  "orientation": "portrait",
+  "categories": ["travel", "transportation", "tickets"],
+  "lang": "sw-TZ",
+  "dir": "ltr",
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Tafuta Nauli",
+      "short_name": "Nauli",
+      "description": "Tafuta na bei za safari za basi",
+      "url": "/routes",
+      "icons": [
+        {
+          "src": "/icons/icon-96.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Akaunti Yangu",
+      "short_name": "Akaunti",
+      "description": "Angalia tiketi zako na wasiliana",
+      "url": "/dashboard",
+      "icons": [
+        {
+          "src": "/icons/icon-96.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Nunua Tiketi",
+      "short_name": "Nunua",
+      "description": "Nunua tiketi mpya ya safari",
+      "url": "/register",
+      "icons": [
+        {
+          "src": "/icons/icon-96.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ]
+}

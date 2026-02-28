@@ -1,0 +1,214 @@
+/* Additional styles for routes filtering and seat selection */
+
+/* List View Styles */
+.routes-list.list-view .route-card {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    background: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.routes-list.list-view .route-header {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+.routes-list.list-view .route-header h3 {
+    margin: 0 0 5px 0;
+    font-size: 18px;
+}
+
+.routes-list.list-view .route-price {
+    font-size: 16px;
+    font-weight: bold;
+    color: #0d6efd;
+}
+
+.routes-list.list-view .route-details {
+    flex: 1;
+    margin: 0 20px;
+}
+
+.routes-list.list-view .route-actions {
+    flex: 0 0 auto;
+}
+
+/* Grid View Styles */
+.routes-list.grid-view {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.routes-list.grid-view .route-card {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.routes-list.grid-view .route-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* No Results Styles */
+.no-results, .no-routes {
+    text-align: center;
+    padding: 60px 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.no-results h3, .no-routes h3 {
+    color: #6c757d;
+    margin-bottom: 15px;
+}
+
+.no-results p, .no-routes p {
+    color: #6c757d;
+    margin-bottom: 20px;
+}
+
+/* Seat Selection Enhancement */
+.seat.selected {
+    background: #0d6efd !important;
+    color: white !important;
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(13, 110, 253, 0.3);
+}
+
+#confirmSeat:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+#confirmSeat:not(:disabled) {
+    background: #0d6efd;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+#confirmSeat:not(:disabled):hover {
+    background: #0b5ed7;
+}
+
+/* Booking Summary Enhancement */
+.booking-summary {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.summary-item:last-child {
+    border-bottom: none;
+}
+
+.summary-item span:first-child {
+    font-weight: 500;
+    color: #495057;
+}
+
+.summary-item span:last-child {
+    font-weight: bold;
+    color: #212529;
+}
+
+/* Search Form Enhancement */
+.search-form {
+    background: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.form-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    flex: 1;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #495057;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: border-color 0.2s ease;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.25);
+}
+
+/* View Toggle Styles */
+.view-toggle {
+    display: flex;
+    gap: 5px;
+    background: #e9ecef;
+    padding: 4px;
+    border-radius: 6px;
+}
+
+.view-btn {
+    padding: 8px 16px;
+    border: none;
+    background: transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.view-btn.active {
+    background: white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .form-row {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .routes-list.list-view .route-card {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .routes-list.list-view .route-details {
+        margin: 15px 0;
+    }
+    
+    .routes-list.grid-view {
+        grid-template-columns: 1fr;
+    }
+}

@@ -3,11 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bus Ticket Booking - Tanzania</title>
+    <title>Safari Zangu - Bus Ticket Booking</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- PWA Meta Tags -->
+    <!-- Production Meta Tags -->
+    <meta name="description" content="SafariBus - Book bus tickets online in Tanzania. Fast, easy, secure booking with mobile app.">
+    <meta name="keywords" content="bus tickets, Tanzania, safari, booking, online, mobile app">
+    <meta property="og:title" content="SafariBus - Online Bus Ticket Booking">
+    <meta property="og:description" content="Book bus tickets in Tanzania easily">
+    <meta property="og:url" content="https://safaribus.co.tz">
+    <meta property="og:type" content="website">
+
+    <meta name="theme-color" content="#0d6efd">
+    <meta name="description" content="Book bus tickets in Tanzania easily and view seat availability.">
+    <link rel="manifest" href="/manifest.json">
+    
+    <!-- Apple PWA -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Safari Zangu">
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
 </head>
 <body>
     <!-- Navigation -->
@@ -31,6 +50,9 @@
                 </li>
                 <li class="nav-item">
                     <a href="register.html" class="nav-link btn-register">Register</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" id="loginBtn" class="nav-link btn-login">Login</a>
                 </li>
             </ul>
             <div class="nav-toggle" id="mobile-menu">
@@ -240,6 +262,87 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=1.0"></script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+        // Clear cache and register new service worker
+        if ('serviceWorker' in navigator) {
+            caches.keys().then(cacheNames => {
+                return Promise.all(
+                    cacheNames.map(cacheName => {
+                        console.log('Deleting cache:', cacheName);
+                        return caches.delete(cacheName);
+                    })
+                );
+            }).then(() => {
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker.register('/service-worker.js')
+                        .then(registration => {
+                            console.log('ServiceWorker registration successful');
+                        })
+                        .catch(err => {
+                            console.log('ServiceWorker registration failed: ', err);
+                        });
+                });
+            });
+        }
+    </script>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+        <div class="loading-spinner"></div>
+        <p>Loading...</p>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Login</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="phone">Phone Number:</label>
+                    <input 
+                        type="tel" 
+                        id="phone" 
+                        name="phone" 
+                        placeholder="Enter phone number"
+                        required
+                        pattern="07\d{8}"
+                        maxlength="10"
+                    />
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Booking Modal -->
+    <div id="bookingModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Booking Details</h2>
+            <div id="bookingDetails"></div>
+        </div>
+    </div>
+
+    <!-- Buses Modal -->
+    <div id="busesModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Available Buses</h2>
+            <div id="busesList"></div>
+        </div>
+    </div>
+
+    <!-- Loading Modal -->
+    <div id="loadingModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="loading-spinner"></div>
+            <p>Loading...</p>
+        </div>
+    </div>
+
 </body>
 </html>

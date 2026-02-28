@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafariBus Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; }
+        button { padding: 10px 20px; margin: 5px; }
+        .result { margin: 10px 0; padding: 10px; background: #f0f0f0; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <h1>🚌 SafariBus API Test</h1>
+    
+    <div class="test-section">
+        <h2>Registration Test</h2>
+        <button onclick="testRegistration()">Test Registration</button>
+        <div id="regResult" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Login Test</h2>
+        <button onclick="testLogin()">Test Login</button>
+        <div id="loginResult" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Routes Test</h2>
+        <button onclick="testRoutes()">Test Routes</button>
+        <div id="routesResult" class="result"></div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:5000/api';
+        
+        async function apiRequest(endpoint, options = {}) {
+            const url = `${API_BASE}${endpoint}`;
+            const defaultOptions = { headers: { 'Content-Type': 'application/json' } };
+            const finalOptions = { ...defaultOptions, ...options, headers: { ...defaultOptions.headers, ...options.headers } };
+            
+            try {
+                const response = await fetch(url, finalOptions);
+                const data = await response.json();
+                return { success: response.ok, data, status: response.status };
+            } catch (error) {
+                return { success: false, error: error.message };
+            }
+        }
+        
+        async function testRegistration() {
+            const result = document.getElementById('regResult');
+            result.innerHTML = 'Testing...';
+            
+            const response = await apiRequest('/auth/register', {
+                method: 'POST',
+                body: JSON.stringify({
+                    full_name: 'Test User API',
+                    phone: '0712345676'
+                })
+            });
+            
+            if (response.success) {
+                result.className = 'result success';
+                result.innerHTML = `✅ Success: ${response.data.message}<br>User ID: ${response.data.user.id}<br>Token: ${response.data.token.substring(0, 50)}...`;
+            } else {
+                result.className = 'result error';
+                result.innerHTML = `❌ Error: ${response.error}`;
+            }
+        }
+        
+        async function testLogin() {
+            const result = document.getElementById('loginResult');
+            result.innerHTML = 'Testing...';
+            
+            const response = await apiRequest('/auth/login', {
+                method: 'POST',
+                body: JSON.stringify({
+                    phone: '0712345676',
+                    password: 'any'
+                })
+            });
+            
+            if (response.success) {
+                result.className = 'result success';
+                result.innerHTML = `✅ Success: ${response.data.message}<br>User: ${response.data.user.full_name}`;
+            } else {
+                result.className = 'result error';
+                result.innerHTML = `❌ Error: ${response.error}`;
+            }
+        }
+        
+        async function testRoutes() {
+            const result = document.getElementById('routesResult');
+            result.innerHTML = 'Testing...';
+            
+            const response = await apiRequest('/routes');
+            
+            if (response.success) {
+                result.className = 'result success';
+                result.innerHTML = `✅ Success: Found ${response.data.routes.length} routes<br>First route: ${response.data.routes[0].from_location} to ${response.data.routes[0].to_location}`;
+            } else {
+                result.className = 'result error';
+                result.innerHTML = `❌ Error: ${response.error}`;
+            }
+        }
+    </script>
+</body>
+</html>

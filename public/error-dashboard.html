@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafariBus Error Dashboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
+        .dashboard { max-width: 1200px; margin: 0 auto; }
+        .section { margin: 20px 0; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .error-item { margin: 10px 0; padding: 15px; border-left: 4px solid #dc3545; background: #f8d7da; }
+        .network-error { border-left-color: #ffc107; background: #fff3cd; }
+        .success { border-left-color: #28a745; background: #d4edda; }
+        h1, h2 { color: #333; }
+        .timestamp { color: #666; font-size: 0.9em; }
+        .error-details { margin: 10px 0; font-family: monospace; font-size: 0.9em; }
+        button { padding: 8px 16px; margin: 5px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        .clear-btn { background: #dc3545; }
+        .clear-btn:hover { background: #c82333; }
+        .status { padding: 10px; border-radius: 4px; margin: 10px 0; }
+        .status.online { background: #d4edda; color: #155724; }
+        .status.offline { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <h1>🚨 SafariBus Error Dashboard</h1>
+        
+        <div class="section">
+            <h2>System Status</h2>
+            <div id="systemStatus" class="status">Checking...</div>
+            <button onclick="refreshStatus()">🔄 Refresh Status</button>
+            <button onclick="clearAllErrors()" class="clear-btn">🗑️ Clear All Errors</button>
+        </div>
+        
+        <div class="section">
+            <h2>API Errors (Last 10)</h2>
+            <div id="apiErrors">No API errors logged</div>
+            <button onclick="exportApiErrors()">📥 Export API Errors</button>
+        </div>
+        
+        <div class="section">
+            <h2>Network Errors (Last 5)</h2>
+            <div id="networkErrors">No network errors logged</div>
+            <button onclick="exportNetworkErrors()">📥 Export Network Errors</button>
+        </div>
+        
+        <div class="section">
+            <h2>System Information</h2>
+            <div id="systemInfo">Loading...</div>
+        </div>
+    </div>
+
+    <script>
+        function displayErrors() {
+            // Display API Errors
+            const apiErrors = JSON.parse(localStorage.getItem('apiErrors') || '[]');
+            const apiErrorsDiv = document.getElementById('apiErrors');
+            
+            if (apiErrors.length === 0) {
+                apiErrorsDiv.innerHTML = 'No API errors logged';
+            } else {
+                apiErrorsDiv.innerHTML = apiErrors.map((error, index) => `
+                    <div class="error-item">
+                        <strong>API Error #${index + 1}</strong>
+                        <div class="timestamp">${new Date(error.timestamp).toLocaleString()}</div>
+                        <div class="error-details">
+                            <strong>Endpoint:</strong> ${error.method} ${error.endpoint}<br>
+                            <strong>Status:</strong> ${error.status} ${error.statusText}<br>
+                            <strong>Error:</strong> ${error.error.error || error.error.message}<br>
+                            <strong>Page:</strong> ${error.url}<br>
+                            <strong>User Agent:</strong> ${error.userAgent}
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            // Display Network Errors
+            const networkErrors = JSON.parse(localStorage.getItem('networkErrors') || '[]');
+            const networkErrorsDiv = document.getElementById('networkErrors');
+            
+            if (networkErrors.length === 0) {
+                networkErrorsDiv.innerHTML = 'No network errors logged';
+            } else {
+                networkErrorsDiv.innerHTML = networkErrors.map((error, index) => `
+                    <div class="error-item network-error">
+                        <strong>Network Error #${index + 1}</strong>
+                        <div class="timestamp">${new Date(error.timestamp).toLocaleString()}</div>
+                        <div class="error-details">
+                            <strong>Endpoint:</strong> ${error.method} ${error.endpoint}<br>
+                            <strong>Error:</strong> ${error.error}<br>
+                            <strong>Online:</strong> ${error.online ? 'Yes' : 'No'}<br>
+                            <strong>Connection:</strong> ${error.connection}
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+        
+        function refreshStatus() {
+            const statusDiv = document.getElementById('systemStatus');
+            const online = navigator.onLine;
+            const connection = navigator.connection ? navigator.connection.effectiveType : 'unknown';
+            
+            statusDiv.className = `status ${online ? 'online' : 'offline'}`;
+            statusDiv.innerHTML = `
+                <strong>Network Status:</strong> ${online ? '🟢 Online' : '🔴 Offline'}<br>
+                <strong>Connection:</strong> ${connection}<br>
+                <strong>Last Updated:</strong> ${new Date().toLocaleString()}
+            `;
+            
+            // Test API connectivity
+            fetch('http://localhost:5000/api/health')
+                .then(response => response.json())
+                .then(data => {
+                    statusDiv.innerHTML += '<br><strong>API Status:</strong> 🟢 Connected';
+                })
+                .catch(error => {
+                    statusDiv.innerHTML += '<br><strong>API Status:</strong> 🔴 Disconnected';
+                });
+        }
+        
+        function displaySystemInfo() {
+            const infoDiv = document.getElementById('systemInfo');
+            infoDiv.innerHTML = `
+                <strong>Browser:</strong> ${navigator.userAgent}<br>
+                <strong>Platform:</strong> ${navigator.platform}<br>
+                <strong>Language:</strong> ${navigator.language}<br>
+                <strong>Cookies Enabled:</strong> ${navigator.cookieEnabled ? 'Yes' : 'No'}<br>
+                <strong>Local Storage:</strong> ${localStorage.length} items<br>
+                <strong>Session Storage:</strong> ${sessionStorage.length} items<br>
+                <strong>Screen Resolution:</strong> ${screen.width}x${screen.height}<br>
+                <strong>Viewport:</strong> ${window.innerWidth}x${window.innerHeight}
+            `;
+        }
+        
+        function clearAllErrors() {
+            if (confirm('Are you sure you want to clear all logged errors?')) {
+                localStorage.removeItem('apiErrors');
+                localStorage.removeItem('networkErrors');
+                displayErrors();
+                alert('All errors cleared!');
+            }
+        }
+        
+        function exportApiErrors() {
+            const errors = JSON.parse(localStorage.getItem('apiErrors') || '[]');
+            const blob = new Blob([JSON.stringify(errors, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `api-errors-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+        
+        function exportNetworkErrors() {
+            const errors = JSON.parse(localStorage.getItem('networkErrors') || '[]');
+            const blob = new Blob([JSON.stringify(errors, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `network-errors-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+        
+        // Initialize dashboard
+        displayErrors();
+        refreshStatus();
+        displaySystemInfo();
+        
+        // Auto-refresh every 30 seconds
+        setInterval(refreshStatus, 30000);
+    </script>
+</body>
+</html>

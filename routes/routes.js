@@ -15,7 +15,8 @@ router.get('/', async (req, res) => {
             ORDER BY r.from_location, r.to_location
         `);
 
-        res.json({ routes: routes[0] });
+        console.log('🛣️ Routes data:', routes);
+        res.json({ routes: routes });
 
     } catch (error) {
         console.error('Routes error:', error);
@@ -37,7 +38,8 @@ router.get('/:routeId/buses', async (req, res) => {
             ORDER BY b.departure_time
         `, [routeId]);
 
-        res.json({ buses: buses[0] });
+        console.log('🚌 Buses data for route', routeId, ':', buses);
+        res.json({ buses: buses });
 
     } catch (error) {
         console.error('Buses error:', error);
@@ -66,14 +68,19 @@ router.get('/buses/:busId/seats', async (req, res) => {
             WHERE b.id = ?
         `, [busId]);
 
+        console.log('🚌 Bus details query result:', busDetails);
+
+        if (!busDetails || busDetails.length === 0) {
+            console.error('❌ No bus details found for busId:', busId);
+            return res.status(404).json({ error: 'Bus not found' });
+        }
+
+        const busData = busDetails[0];
+        console.log('✅ Bus data to return:', busData);
+
         res.json({
-            bus: busDetails[0][0],
-            seats: seats[0],
-            debug: {
-                busDetails: busDetails,
-                seats: seats,
-                busId: busId
-            }
+            bus: busData,
+            seats: seats
         });
 
     } catch (error) {
@@ -95,11 +102,11 @@ router.get('/:id', async (req, res) => {
             GROUP BY r.id
         `, [id]);
 
-        if (route[0].length === 0) {
+        if (!route || route.length === 0) {
             return res.status(404).json({ error: 'Route not found' });
         }
 
-        res.json({ route: route[0][0] });
+        res.json({ route: route[0] });
 
     } catch (error) {
         console.error('Route error:', error);

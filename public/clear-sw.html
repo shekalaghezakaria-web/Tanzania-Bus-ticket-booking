@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Clear Service Workers</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        button { background: #1976d2; color: white; padding: 10px 20px; border: none; cursor: pointer; margin: 10px; }
+        button:hover { background: #1565c0; }
+        .status { margin: 10px 0; padding: 10px; border-radius: 5px; }
+        .success { background: #4caf50; color: white; }
+        .error { background: #f44336; color: white; }
+    </style>
+</head>
+<body>
+    <h1>🔄 SafariBus Service Worker Reset</h1>
+    
+    <div id="status"></div>
+    
+    <button onclick="clearAllServiceWorkers()">Clear All Service Workers</button>
+    <button onclick="clearCache()">Clear Browser Cache</button>
+    <button onclick="reloadApp()">Reload SafariBus App</button>
+    
+    <script>
+        function showStatus(message, type = 'success') {
+            const statusDiv = document.getElementById('status');
+            statusDiv.innerHTML = `<div class="status ${type}">${message}</div>`;
+        }
+        
+        async function clearAllServiceWorkers() {
+            try {
+                const registrations = await navigator.serviceWorker.getRegistrations();
+                
+                for (let registration of registrations) {
+                    await registration.unregister();
+                    console.log('Unregistered service worker:', registration.scope);
+                }
+                
+                showStatus(`✅ Cleared ${registrations.length} service worker(s)`);
+            } catch (error) {
+                showStatus(`❌ Error: ${error.message}`, 'error');
+            }
+        }
+        
+        async function clearCache() {
+            try {
+                const cacheNames = await caches.keys();
+                
+                for (let cacheName of cacheNames) {
+                    await caches.delete(cacheName);
+                    console.log('Deleted cache:', cacheName);
+                }
+                
+                showStatus(`✅ Cleared ${cacheNames.length} cache(s)`);
+            } catch (error) {
+                showStatus(`❌ Error: ${error.message}`, 'error');
+            }
+        }
+        
+        function reloadApp() {
+            showStatus('🔄 Reloading SafariBus App...');
+            setTimeout(() => {
+                window.location.href = 'http://192.168.100.7:5000';
+            }, 2000);
+        }
+        
+        // Auto-clear on page load
+        window.addEventListener('load', async () => {
+            await clearAllServiceWorkers();
+            await clearCache();
+            setTimeout(reloadApp, 3000);
+        });
+    </script>
+</body>
+</html>
